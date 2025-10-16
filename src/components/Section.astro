@@ -7,11 +7,32 @@ interface Props {
 const { text, href } = Astro.props;
 ---
 
-<section id={href} class="py-24">
-  <h2
-    class="mb-14 font-serif text-4xl font-bold tracking-tighter text-white md:text-5xl"
-  >
-    {text}
-  </h2>
-  <slot />
+<section id={href} class="section-block relative py-24">
+  <div class="section-glow pointer-events-none absolute inset-x-0 top-10 z-0 flex justify-center" aria-hidden="true">
+    <span
+      class="block h-40 w-[88%] max-w-4xl rounded-[48px] bg-gradient-to-b from-primary/40 via-primary/15 to-transparent blur-3xl"
+      data-animate
+      style="--reveal-order: -1;"
+    ></span>
+  </div>
+
+  <div class="section-inner relative z-[1]">
+    <div
+      class="section-header flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
+      data-animate
+      style="--reveal-order: 0;"
+    >
+      <h2 class="text-balance font-serif text-4xl font-bold tracking-tighter text-white md:text-5xl">
+        {text}
+      </h2>
+      <span
+        class="hidden h-px flex-1 translate-y-1 bg-gradient-to-r from-primary/40 via-primary/10 to-transparent md:block"
+        aria-hidden="true"
+      ></span>
+    </div>
+
+    <div class="section-content" data-animate style="--reveal-order: 1;">
+      <slot />
+    </div>
+  </div>
 </section>

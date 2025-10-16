@@ -8,20 +8,27 @@ const { name, specialty, summary, email } = Astro.props;
 <section class="py-24 md:py-32" id="#hero">
   <h1
     class="mb-1.5 font-serif text-7xl font-bold tracking-tightest text-white sm:text-8xl md:mb-0 md:text-9xl"
+    data-animate
+    style="--reveal-order: 0;"
   >
     {name}
   </h1>
   <p
     class="mb-9 font-serif text-4xl leading-[46px] font-bold tracking-tighter text-primary sm:text-5xl md:text-6xl"
+    data-animate
+    style="--reveal-order: 1;"
   >
     {specialty}
   </p>
-  <p class="mb-16 text-base font-normal text-neutral md:text-lg">
+  <p class="mb-16 text-base font-normal text-neutral md:text-lg" data-animate style="--reveal-order: 2;">
     {summary}
   </p>
 
   <a
-    class="inline-block rounded-full bg-primary px-8 py-5 text-sm leading-5 font-medium text-[#fff]"
-    href={`mailto:${email}`}>Get in Touch</a
+    class="inline-block rounded-full bg-primary px-8 py-5 text-sm leading-5 font-medium text-[#fff] shadow-[0_25px_45px_-20px_rgba(37,99,235,0.65)] transition-transform duration-500 hover:-translate-y-1"
+    href={`mailto:${email}`}
+    data-animate
+    style="--reveal-order: 3;"
+    >Get in Touch</a
   >
 </section>

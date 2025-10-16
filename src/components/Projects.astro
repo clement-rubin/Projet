@@ -14,12 +14,14 @@ const { projects } = Astro.props;
   {
     projects.map(({ name, summary, image, linkPreview, linkSource }, index) => {
       const top = 98 + index * 40;
+      const order = index + 1;
       return (
-        <div
-          style={`top: ${top}px;`}
-          class="sticky mb-12 rounded-2xl border border-neutral/20 bg-black"
-        >
-          <div class="bg-difu relative z-[1] grid h-[580px] w-full grid-rows-2 rounded-2xl bg-[#1c232d]/85 before:absolute before:inset-0 before:z-[-1] before:rounded-2xl before:bg-[url(/raja.png)] before:bg-[length:128px] before:bg-repeat before:opacity-[5%] before:content-[''] sm:grid-cols-2 sm:grid-rows-1 md:h-96">
+        <div style={`top: ${top}px;`} class="group sticky mb-12">
+          <div
+            class="relative z-[1] grid h-[580px] w-full grid-rows-2 overflow-hidden rounded-2xl border border-white/5 bg-[#111822]/85 shadow-[0_35px_90px_-60px_rgba(15,23,42,0.9)] backdrop-blur-xl transition duration-700 before:absolute before:inset-0 before:z-[-1] before:rounded-2xl before:bg-[url(/raja.png)] before:bg-[length:128px] before:bg-repeat before:opacity-[5%] before:content-[''] hover:border-primary/40 sm:grid-cols-2 sm:grid-rows-1 md:h-96"
+            data-animate
+            style={`--reveal-order: ${order};`}
+          >
             <div class="px-6 pt-12">
               <h3 class="mb-5 font-serif text-3xl font-medium text-primary">
                 {name}
@@ -44,7 +46,7 @@ const { projects } = Astro.props;
             </div>
             <div class="flex items-end justify-end overflow-hidden">
               <Image
-                class="h-full w-[95%] rounded-ss-xl rounded-ee-2xl object-none object-left-top sm:h-[85%] sm:w-full"
+                class="h-full w-[95%] rounded-ss-xl rounded-ee-2xl object-none object-left-top transition-transform duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-[1.04] sm:h-[85%] sm:w-full"
                 src={image}
                 alt={name}
                 width="736"

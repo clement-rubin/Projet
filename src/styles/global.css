@@ -51,3 +51,58 @@
     }
   }
 }
+
+body {
+  background: radial-gradient(200% 180% at 50% 0%, rgba(37, 99, 235, 0.18), transparent 65%), #0e141b;
+}
+
+.section-block {
+  position: relative;
+  isolation: isolate;
+}
+
+.section-block::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 56px;
+  opacity: 0;
+  transition: opacity 800ms ease;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(148, 163, 184, 0.08), rgba(37, 99, 235, 0.24));
+  filter: blur(40px);
+}
+
+.section-block:has(.section-content .is-visible)::after {
+  opacity: 1;
+}
+
+.section-header h2 {
+  text-shadow: 0 20px 40px rgba(15, 23, 42, 0.45);
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translate3d(0, 120px, 0) scale(0.98);
+  filter: blur(14px);
+  transition-property: opacity, transform, filter;
+  transition-duration: 1100ms;
+  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  transition-delay: calc(var(--reveal-order, 0) * 120ms);
+  will-change: transform, opacity, filter;
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
