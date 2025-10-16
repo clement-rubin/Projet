@@ -48,5 +48,51 @@ const ogImgUrl = canonicalURL + socialImage;
       <slot />
     </main>
     <Footer author={author} socialLinks={socialLinks} />
+    <script is:inline>
+      const initScrollAnimations = () => {
+        const elements = Array.from(document.querySelectorAll("[data-animate]"));
+        if (!elements.length) return;
+
+        const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const revealAll = () => {
+          elements.forEach((element) => element.classList.add("is-visible"));
+        };
+
+        if (prefersReduced.matches) {
+          revealAll();
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.2,
+            rootMargin: "0px 0px -10%",
+          }
+        );
+
+        elements.forEach((element) => observer.observe(element));
+
+        prefersReduced.addEventListener("change", (event) => {
+          if (event.matches) {
+            revealAll();
+            observer.disconnect();
+          }
+        });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initScrollAnimations, { once: true });
+      } else {
+        initScrollAnimations();
+      }
+    </script>
   </body>
 </html>
