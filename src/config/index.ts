@@ -9,6 +9,7 @@ export const SITE_CONFIG: SiteConfig = {
   siteLogo: "/1708715521672.jpg",
   navLinks: [
     { text: "Experience", href: "#experience" },
+    { text: "Bénévolat", href: "#volunteer" },
     { text: "Projects", href: "#projects" },
     { text: "About", href: "#about" },
   ],
@@ -37,12 +38,12 @@ export const SITE_CONTENT: SiteContent = {
       position: "Agent administratif",
       startDate: "Juillet 2023",
       endDate: "Août 2023",
-  summary: [
-    "Gestion des stocks et inventaire des biens sur site.",
-    "Préparation et présentation au cours d’une réunion du travail effectué.",
-    "Sensibilisation au monde de l’entreprise et à la sécurité.",
-  ],
-},
+      summary: [
+        "Gestion des stocks et inventaire des biens sur site.",
+        "Préparation et présentation au cours d'une réunion du travail effectué.",
+        "Sensibilisation au monde de l'entreprise et à la sécurité.",
+      ],
+    },
     {
       company: "La Nomande de nettoyage",
       position: "Agent d'entretien",
@@ -55,12 +56,36 @@ export const SITE_CONTENT: SiteContent = {
       ],
     },
     {
-      company: "Driveer",
-      position: "Frontend Developer",
-      startDate: "Jun 2015",
-      endDate: "Oct 2016",
-      summary:
-        "Developed and integrated a real-time vehicle tracking system using WebSockets, improving accuracy and data update in the application. This functionality increased user satisfaction by 30% and reduced customer service inquiries by 25%.",
+      company: "Departement de la Seine-Maritime",
+      position: "Membre du Conseil départemental des collégiens",
+      startDate: "sept 2015",
+      endDate: "sept 2017",
+      summary: ["En tant que conseiller départemental des collégiens en Seine-Maritime. Mon rôle a consisté à proposer et à mettre en œuvre des projets éducatifs, culturels et citoyens, favorisant l’engagement et la responsabilisation des jeunes au sein de notre collectivité. Cette expérience m’a permis de développer des compétences en communication, travail d’équipe et leadership, tout en contribuant au bien-être et à l’épanouissement des collégiens du département."],
+    },
+  ],
+  volunteer: [
+    {
+      
+      organization: "Association locale d'aide aux devoirs",
+      role: "Bénévole tuteur",
+      startDate: "Septembre 2022",
+      endDate: "Juin 2023",
+      summary: [
+        "Accompagnement scolaire d'élèves en difficulté en mathématiques et informatique.",
+        "Organisation d'ateliers d'initiation au numérique pour les seniors.",
+        "Participation à la coordination des activités bénévoles.",
+      ],
+    },
+    {
+      organization: "Croix-Rouge française",
+      role: "Bénévole secouriste",
+      startDate: "Mars 2023",
+      endDate: "Présent",
+      summary: [
+        "Formation aux premiers secours et gestes de survie.",
+        "Participation aux missions de secours lors d'événements locaux.",
+        "Sensibilisation du public aux gestes de premiers secours.",
+      ],
     },
   ],
   projects: [

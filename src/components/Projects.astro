@@ -18,7 +18,7 @@ const { projects } = Astro.props;
       return (
         <div style={`top: ${top}px;`} class="group sticky mb-12">
           <div
-            class="relative z-[1] grid h-[580px] w-full grid-rows-2 overflow-hidden rounded-2xl border border-white/5 bg-[#111822]/85 shadow-[0_35px_90px_-60px_rgba(15,23,42,0.9)] backdrop-blur-xl transition duration-700 before:absolute before:inset-0 before:z-[-1] before:rounded-2xl before:bg-[url(/raja.png)] before:bg-[length:128px] before:bg-repeat before:opacity-[5%] before:content-[''] hover:border-primary/40 sm:grid-cols-2 sm:grid-rows-1 md:h-96"
+            class="project-card relative z-[1] grid h-[580px] w-full grid-rows-2 overflow-hidden rounded-2xl border border-white/5 bg-[#111822]/85 shadow-[0_35px_90px_-60px_rgba(15,23,42,0.9)] backdrop-blur-xl before:absolute before:inset-0 before:z-[-1] before:rounded-2xl before:bg-[url(/raja.png)] before:bg-[length:128px] before:bg-repeat before:opacity-[5%] before:content-[''] hover:border-primary/40 sm:grid-cols-2 sm:grid-rows-1 md:h-96"
             data-animate
             style={`--reveal-order: ${order};`}
           >
@@ -46,7 +46,7 @@ const { projects } = Astro.props;
             </div>
             <div class="flex items-end justify-end overflow-hidden">
               <Image
-                class="h-full w-[95%] rounded-ss-xl rounded-ee-2xl object-none object-left-top transition-transform duration-[1200ms] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-[1.04] sm:h-[85%] sm:w-full"
+                class="h-full w-[95%] rounded-ss-xl rounded-ee-2xl object-none object-left-top transition-transform duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02] sm:h-[85%] sm:w-full"
                 src={image}
                 alt={name}
                 width="736"

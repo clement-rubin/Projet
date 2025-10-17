@@ -8,104 +8,200 @@ type Props = HeaderProps;
 const { siteLogo, navLinks } = Astro.props;
 ---
 
-<header
-  class="sticky top-0 z-50 mx-auto flex max-w-5xl animate-slide-in justify-between bg-black px-5 py-6"
->
-  <a href="/" aria-label="Home link">
-    <Image
-      class="rounded-full"
-      src={siteLogo}
-      width="45"
-      height="45"
-      alt="website logo"
-    />
-  </a>
-
-  <button
-    type="button"
-    id="menu-button"
-    class="px-1.5 text-neutral sm:hidden"
-    aria-expanded="false"
-    aria-controls="main-menu"
+<header class="site-header sticky top-0 z-50 px-4 pt-4 sm:px-6">
+  <div
+    class="site-header__inner animate-slide-in mx-auto flex max-w-5xl items-center justify-between gap-4 rounded-2xl border border-white/10 bg-black/70 px-4 py-4 shadow-[0_25px_60px_-35px_rgba(15,23,42,0.9)] backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-500 sm:px-6 sm:py-5"
   >
-    <Menu />
-  </button>
+    <a href="/" aria-label="Home link" class="inline-flex items-center gap-3 text-white/90">
+      <Image
+        class="h-11 w-11 rounded-full border border-white/10 object-cover"
+        src={siteLogo}
+        width="48"
+        height="48"
+        alt="website logo"
+      />
+      <span class="hidden text-sm font-medium tracking-tight text-white/70 sm:inline">
+        Portfolio
+      </span>
+    </a>
 
-  <nav
-    class="absolute top-20 right-5 hidden rounded-xl border border-neutral/40 bg-black px-4 py-5 text-neutral sm:static sm:block sm:border-0 sm:bg-transparent sm:p-0"
-    id="main-menu"
-  >
-    <ul class="gap-2 sm:flex">
-      {
-        navLinks.map((link) => (
-          <li class="relative">
-            <a
-              class={`nav-item relative block p-2 text-sm font-medium transition-all duration-500 after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-primary after:opacity-0 after:content-['•'] hover:text-white`}
-              href={link.href}
-            >
-              {link.text}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
+    <button
+      type="button"
+      id="menu-button"
+      class="site-nav__toggle inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral transition-colors duration-300 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 sm:hidden"
+      aria-expanded="false"
+      aria-controls="main-menu"
+      aria-label="Toggle navigation"
+    >
+      <Menu />
+    </button>
+
+    <nav
+      class="site-nav hidden absolute right-4 top-[calc(100%+0.75rem)] flex w-[min(260px,calc(100vw-2rem))] flex-col rounded-2xl border border-white/10 bg-black/90 p-4 text-neutral shadow-[0_30px_70px_-45px_rgba(15,23,42,0.85)] backdrop-blur-xl sm:static sm:flex sm:w-auto sm:flex-row sm:items-center sm:gap-1 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none"
+      id="main-menu"
+    >
+      <ul class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+        {
+          navLinks.map((link) => (
+            <li class="relative" key={link.href}>
+              <a
+                class="nav-item inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-neutral transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+                href={link.href}
+              >
+                {link.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
 </header>
 
-<script>
-  // Toggle mobile menu
-  const button = document.querySelector("#menu-button");
-  const menu = document.querySelector("#main-menu");
-  const navItems = document.querySelectorAll("#main-menu > ul > li > a");
+<script lang="ts">
+  const button = document.querySelector<HTMLButtonElement>("#menu-button");
+  const menu = document.querySelector<HTMLElement>("#main-menu");
+  const navItems = document.querySelectorAll<HTMLAnchorElement>("#main-menu > ul > li > a");
+  const headerContainer = document.querySelector<HTMLElement>(".site-header__inner");
+
+  const setActiveNavItem = (target: string | null) => {
+    navItems.forEach((item) => {
+      if (!target) {
+        item.classList.remove("is-active");
+        return;
+      }
+
+      if (item.getAttribute("href") === target) {
+        item.classList.add("is-active");
+      } else {
+        item.classList.remove("is-active");
+      }
+    });
+  };
+
+  const updateHeaderState = () => {
+    if (!headerContainer) return;
+    headerContainer.classList.toggle("is-elevated", window.scrollY > 12);
+  };
 
   const toggleMenu = () => {
     menu?.classList.toggle("hidden");
     const isHidden = menu?.classList.contains("hidden");
     button?.setAttribute("aria-expanded", `${!isHidden}`);
+    button?.classList.toggle("is-active", !isHidden);
   };
 
   button?.addEventListener("click", toggleMenu);
+
   navItems.forEach((item) => {
-    item?.addEventListener("click", toggleMenu);
+    item.addEventListener("click", () => {
+      if (window.matchMedia("(min-width: 640px)").matches) return;
+      if (!menu?.classList.contains("hidden")) toggleMenu();
+    });
   });
 
-  // Update navigation based on scroll position with Intersection Observer
+  if (navItems.length) {
+    const initialTarget = window.location.hash || navItems[0].getAttribute("href");
+    setActiveNavItem(initialTarget);
+  }
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          navItems.forEach((item) => {
-            if (item.getAttribute("href") === `#${entry.target.id}`) {
-              item.classList.add("text-white", "md:after:opacity-100");
-            } else {
-              item.classList.remove("text-white", "md:after:opacity-100");
-            }
-          });
+          setActiveNavItem(`#${entry.target.id}`);
         }
       });
     },
     { threshold: 0.5 },
   );
 
-  document.querySelectorAll("section").forEach((section) => {
+  document.querySelectorAll("section[id]").forEach((section) => {
     observer.observe(section);
   });
 
-  // Cleanup observer
   document.onvisibilitychange = () => {
     if (document.visibilityState === "hidden") {
       observer.disconnect();
     } else {
-      document.querySelectorAll("section").forEach((section) => {
+      document.querySelectorAll("section[id]").forEach((section) => {
         observer.observe(section);
       });
     }
   };
+
+  updateHeaderState();
+  window.addEventListener("scroll", updateHeaderState, { passive: true });
 </script>
 
 <style>
-  header {
+  .site-header {
     animation-timeline: scroll();
     animation-range: 0 650px;
+  }
+
+  .site-header__inner {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(14, 20, 27, 0.72);
+  }
+
+  .site-header__inner.is-elevated {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(14, 20, 27, 0.85);
+    box-shadow: 0 35px 90px -45px rgba(15, 23, 42, 0.75);
+  }
+
+  .site-nav {
+    z-index: 20;
+  }
+
+  .site-nav__toggle {
+    transition: background-color 220ms var(--ease-soft), border-color 220ms var(--ease-soft), color 220ms var(--ease-soft);
+  }
+
+  .site-nav__toggle.is-active {
+    background-color: rgba(37, 99, 235, 0.18);
+    border-color: rgba(37, 99, 235, 0.4);
+    color: var(--color-white);
+  }
+
+  .nav-item {
+    position: relative;
+    color: rgba(226, 232, 240, 0.75);
+    transition: color 240ms var(--ease-soft);
+  }
+
+  .nav-item::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 0;
+    height: 2px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, rgba(37, 99, 235, 0), rgba(37, 99, 235, 0.75), rgba(37, 99, 235, 0));
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: width 260ms var(--ease-soft), opacity 260ms var(--ease-soft);
+  }
+
+  .nav-item:hover,
+  .nav-item:focus-visible,
+  .nav-item.is-active {
+    color: var(--color-white);
+  }
+
+  .nav-item:hover::after,
+  .nav-item:focus-visible::after,
+  .nav-item.is-active::after {
+    width: 75%;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header__inner,
+    .site-nav__toggle {
+      transition: none;
+    }
   }
 </style>
