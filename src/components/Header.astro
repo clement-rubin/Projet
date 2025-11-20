@@ -43,7 +43,7 @@ const { siteLogo, navLinks } = Astro.props;
       <ul class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
         {
           navLinks.map((link) => (
-            <li class="relative" key={link.href}>
+            <li class="relative" data-key={link.href}>
               <a
                 class="nav-item inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-neutral transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
                 href={link.href}
@@ -58,13 +58,13 @@ const { siteLogo, navLinks } = Astro.props;
   </div>
 </header>
 
-<script lang="ts">
-  const button = document.querySelector<HTMLButtonElement>("#menu-button");
-  const menu = document.querySelector<HTMLElement>("#main-menu");
-  const navItems = document.querySelectorAll<HTMLAnchorElement>("#main-menu > ul > li > a");
-  const headerContainer = document.querySelector<HTMLElement>(".site-header__inner");
+<script is:inline>
+  const button = document.querySelector("#menu-button");
+  const menu = document.querySelector("#main-menu");
+  const navItems = document.querySelectorAll("#main-menu > ul > li > a");
+  const headerContainer = document.querySelector(".site-header__inner");
 
-  const setActiveNavItem = (target: string | null) => {
+  const setActiveNavItem = (target) => {
     navItems.forEach((item) => {
       if (!target) {
         item.classList.remove("is-active");
