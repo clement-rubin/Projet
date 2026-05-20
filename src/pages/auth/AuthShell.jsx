@@ -294,7 +294,7 @@ function Orb() {
       </defs>
       <circle cx="200" cy="200" r="190" fill="url(#orb-g)" />
       <circle cx="200" cy="200" r="190" fill="url(#orb-glow)" opacity="0.6" />
-      {[...Array(8)].map((_, i) => {
+      {Array.from({ length: 8 }, (_, i) => {
         const a = (i / 8) * Math.PI * 2
         const x = 200 + Math.cos(a) * 158
         const y = 200 + Math.sin(a) * 158

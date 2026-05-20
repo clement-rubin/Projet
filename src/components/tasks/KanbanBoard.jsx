@@ -52,6 +52,7 @@ export default function KanbanBoard({ projectId, tasks, members, onChange }) {
     const { destination, source, draggableId } = result
     if (!destination || destination.droppableId === source.droppableId) return
 
+    const previousStatus = source.droppableId
     setLocalTasks((prev) =>
       prev.map((t) => (t.id === draggableId ? { ...t, status: destination.droppableId } : t)),
     )
@@ -61,8 +62,10 @@ export default function KanbanBoard({ projectId, tasks, members, onChange }) {
       .update({ status: destination.droppableId })
       .eq('id', draggableId)
     if (error) {
+      setLocalTasks((prev) =>
+        prev.map((t) => (t.id === draggableId ? { ...t, status: previousStatus } : t)),
+      )
       toast.error('Mise à jour impossible')
-      onChange?.()
     }
   }
 

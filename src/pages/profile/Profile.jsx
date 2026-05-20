@@ -51,7 +51,7 @@ export default function Profile() {
       const { error: upErr } = await supabase.storage
         .from('avatars')
         .upload(path, file, { upsert: true, cacheControl: '3600' })
-      if (upErr && !upErr.message.includes('Bucket not found')) throw upErr
+      if (upErr && upErr.statusCode !== 404 && !upErr.message?.includes('Bucket not found')) throw upErr
       if (upErr) {
         toast.error('Bucket "avatars" manquant dans Supabase. Créez-le (public) pour activer cette fonction.')
         return

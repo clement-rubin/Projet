@@ -42,7 +42,12 @@ export default function SupervisorDashboard() {
     try {
       await seedDemoData(user.id)
       toast.success('Données de démo chargées')
-      await queryClient.invalidateQueries()
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['my-projects'] }),
+        queryClient.invalidateQueries({ queryKey: ['projects-stats'] }),
+        queryClient.invalidateQueries({ queryKey: ['deliverables-count'] }),
+        queryClient.invalidateQueries({ queryKey: ['weekly-activity'] }),
+      ])
     } catch (err) {
       toast.error(err.message ?? 'Impossible de charger la démo')
     } finally {

@@ -64,7 +64,12 @@ export const useAuthStore = create((set, get) => ({
 
     supabase.auth.onAuthStateChange(async (_evt, session) => {
       set({ session, user: session?.user ?? null })
-      await get().loadProfile()
+      try {
+        await get().loadProfile()
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('onAuthStateChange:loadProfile', err)
+      }
     })
   },
 }))

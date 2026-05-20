@@ -25,6 +25,7 @@ export default function ProjectDetail() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [editOpen, setEditOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
 
   const projectQ = useQuery({
     queryKey: ['project', id],
@@ -88,7 +89,6 @@ export default function ProjectDetail() {
   const dleft = daysUntil(project.deadline)
 
   async function deleteProject() {
-    if (!confirm('Supprimer ce projet et toutes ses données ? Cette action est irréversible.')) return
     const { error } = await supabase.from('projects').delete().eq('id', project.id)
     if (error) return toast.error(error.message)
     toast.info('Projet supprimé')
@@ -152,7 +152,7 @@ export default function ProjectDetail() {
               <Button variant="secondary" size="sm" onClick={() => setEditOpen(true)}>
                 <Pencil size={14} /> Modifier
               </Button>
-              <Button variant="ghost" size="sm" onClick={deleteProject}>
+              <Button variant="ghost" size="sm" onClick={() => setDeleteOpen(true)}>
                 <Trash2 size={14} className="text-rose-500" />
               </Button>
             </div>
@@ -257,6 +257,24 @@ export default function ProjectDetail() {
           onSubmit={saveProject}
           submitLabel="Enregistrer"
         />
+      </Modal>
+
+      <Modal open={deleteOpen} onClose={() => setDeleteOpen(false)} title="Supprimer le projet">
+        <p className="text-sm text-ink-600">
+          Supprimer ce projet et toutes ses données ? Cette action est irréversible.
+        </p>
+        <div className="mt-4 flex justify-end gap-2">
+          <Button variant="secondary" size="sm" onClick={() => setDeleteOpen(false)}>
+            Annuler
+          </Button>
+          <Button
+            size="sm"
+            className="bg-rose-600 hover:bg-rose-700"
+            onClick={() => { setDeleteOpen(false); deleteProject() }}
+          >
+            Supprimer
+          </Button>
+        </div>
       </Modal>
     </div>
   )
